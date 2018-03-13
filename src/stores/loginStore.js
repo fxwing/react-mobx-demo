@@ -14,6 +14,7 @@ class Login {
           runInAction(()=>{
               this.isLogin = true;
               this.userInfo=data;
+              sessionStorage.isLogin = this.isLogin;
           })
       }
     }
