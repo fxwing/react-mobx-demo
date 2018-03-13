@@ -7,11 +7,15 @@ const FormItem = Form.Item;
 const form = Form.create()
 @inject('loginStore') @form @observer
 class Login extends Component {
+    constructor(){
+        super();
+    }
     handleSubmit (e){
+        const { login,userInfo } = this.props.loginStore;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                login(values);
             }
         });
     }
@@ -19,17 +23,17 @@ class Login extends Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className={styles.loginWrapper}  >
-                <Form onSubmit={this.handleSubmit} className="login-form">
+                <Form onSubmit={(event)=>this.handleSubmit(event)} className="login-form">
                     <FormItem>
                         {getFieldDecorator('userName', {
-                            rules: [{ required: true, message: 'Please input your username!' }],
+                            rules: [{ required: true, message: '请输入用户名!' }],
                         })(
                             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
                         )}
                     </FormItem>
                     <FormItem>
                         {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Please input your Password!' }],
+                            rules: [{ required: true, message: '请输入密码!' }],
                         })(
                             <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
                         )}
@@ -39,13 +43,12 @@ class Login extends Component {
                             valuePropName: 'checked',
                             initialValue: true,
                         })(
-                            <Checkbox>Remember me</Checkbox>
+                            <Checkbox>记住我</Checkbox>
                         )}
-                        <a className="login-form-forgot" href="">Forgot password</a>
+                        <a className="login-form-forgot" href="">忘记密码</a>
                         <Button type="primary" htmlType="submit" className="login-form-button">
-                            Log in
+                            登陆
                         </Button>
-                        Or <a href="">register now!</a>
                     </FormItem>
                 </Form>
             </div>

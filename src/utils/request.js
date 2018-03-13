@@ -1,7 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
-
+import { API_PATH } from '../constants'
 axios.defaults.timeout = 5000
+axios.defaults.baseURL = API_PATH
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
 //请求拦截
