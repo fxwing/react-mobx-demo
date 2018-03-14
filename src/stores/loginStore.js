@@ -5,7 +5,7 @@ class Login {
     @observable isLogin
     @observable userInfo
     constructor(){
-        this.isLogin = false;
+        this.isLogin = sessionStorage.isLogin||false;
         this.userInfo={}
     }
     @action.bound async login(values) {
@@ -15,11 +15,13 @@ class Login {
               this.isLogin = true;
               this.userInfo=data;
               sessionStorage.isLogin = this.isLogin;
+              sessionStorage.token = this.userInfo.token;
           })
       }
     }
     @action loginOut() {
         this.isLogin = false
+        sessionStorage.clear();
     }
 }
 export default new Login();

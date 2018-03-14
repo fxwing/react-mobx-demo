@@ -1,8 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
 import { API_PATH } from '../constants'
+import login from '../stores/loginStore'
 axios.defaults.timeout = 5000
 axios.defaults.baseURL = API_PATH
+axios.defaults.headers.common['Authorization'] = sessionStorage.AUTH_TOKEN||'';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
 //请求拦截
@@ -23,6 +25,7 @@ axios.interceptors.request.use(
 //响应拦截
 axios.interceptors.response.use(
     response => {
+        let obj = response.data;
         //appStore.hideLoading()
         return response.data
     },
