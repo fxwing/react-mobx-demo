@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router,Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
 import store from './stores/index'
@@ -14,7 +14,7 @@ useStrict(true)
 ReactDOM.render(
     <Provider {...store}>
         <Router basename="/">
-            <App />
+            <Route path="/" component={App}/>
         </Router>
     </Provider>,
     document.getElementById('root'));
