@@ -1,5 +1,6 @@
 import login from './loginStore'
-
+import asideStore from './asideStore'
 export default {
-    loginStore : login
+    loginStore : login,
+    asideStore : asideStore
 }

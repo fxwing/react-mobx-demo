@@ -1,10 +1,22 @@
 import React,{ Component } from 'react'
 import { Layout, Menu, Breadcrumb, Icon,Avatar } from 'antd';
+import { observer,inject } from 'mobx-react'
+import { Route, withRouter, Switch,Link } from 'react-router-dom'
 const { SubMenu } = Menu;
 const { Header, Content, Sider,Footer } = Layout;
 import styles from './Main.less'
-class Main extends Component {
 
+@inject('asideStore') @observer
+class Main extends Component {
+    testClick(e){
+        let asideStore = this.props.asideStore;
+        asideStore.currentKey = e.key;
+        asideStore.getAsideMenu().then((data)=>{
+           console.log(data.slice());
+        });
+       /* let arr  = asideStore.asideList.slice();
+        console.log(arr);*/
+    }
     render(){
         return(
             <Layout>
@@ -16,10 +28,11 @@ class Main extends Component {
                         defaultSelectedKeys={['1']}
                         className={styles.ul}
                         style={{ lineHeight: '64px' }}
+                        onClick={(event)=>this.testClick(event)}
                     >
-                        <Menu.Item key="1">nav 1</Menu.Item>
-                        <Menu.Item key="2">nav 2</Menu.Item>
-                        <Menu.Item key="3">nav 3</Menu.Item>
+                        <Menu.Item key="1"><Link to="/Setting">系统设置</Link></Menu.Item>
+                        <Menu.Item key="2"><Link to="/User">{this.props.asideStore.asideList.slice()}</Link></Menu.Item>
+                        <Menu.Item key="3"><Link to="/Exchange">共享交换</Link></Menu.Item>
                     </Menu>
                     <div className={styles.userPhoto}>
                         <Menu  mode="horizontal" style={{ lineHeight: '64px' }} className={styles.info} theme="dark">
@@ -46,22 +59,7 @@ class Main extends Component {
                                 <Menu.Item key="3">option3</Menu.Item>
                                 <Menu.Item key="4">option4</Menu.Item>
                             </SubMenu>
-                            <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="6">option6</Menu.Item>
-                                <Menu.Item key="7">option7</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
-                                <Menu.Item key="9">option9</Menu.Item>
-                                <Menu.Item key="10">option10</Menu.Item>
-                                <Menu.Item key="11">option11</Menu.Item>
-                                <SubMenu key="sub3_1" title={<span><Icon type="notification" />subnav 3_1</span>}>
-                                    <Menu.Item key="91">option91</Menu.Item>
-                                    <Menu.Item key="12">option12</Menu.Item>
-                                    <Menu.Item key="13">option13</Menu.Item>
-                                </SubMenu>
-                            </SubMenu>
+
                         </Menu>
                     </Sider>
                     <Layout style={{ padding: '0 24px 24px' }}>
