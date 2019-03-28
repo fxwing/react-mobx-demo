@@ -1,24 +1,35 @@
-import React,{ Component } from 'react'
-import { Layout, Menu, Breadcrumb, Icon,Avatar } from 'antd';
-import { observer,inject } from 'mobx-react'
-import { Route, withRouter, Switch,Link } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Layout, Menu, Breadcrumb, Icon, Avatar } from 'antd';
+import { observer, inject, onError } from 'mobx-react'
+import { Route, withRouter, Switch, Link } from 'react-router-dom'
 const { SubMenu } = Menu;
-const { Header, Content, Sider,Footer } = Layout;
+const { Header, Content, Sider, Footer } = Layout;
+import Test from '../Test/test';
 import styles from './Main.less'
-
-@inject('asideStore') @observer
-class Main extends Component {
-    testClick(e){
+onError((err) => {
+    console.log(err)
+})
+@inject('asideStore')
+@inject('loginStore')
+@observer class Main extends Component {
+    constructor(props) {
+        super()
+        console.log(props)
+    }
+    testClick(e) {
         let asideStore = this.props.asideStore;
         asideStore.currentKey = e.key;
-        asideStore.getAsideMenu().then((data)=>{
-           console.log(data.slice());
+        asideStore.getAsideMenu().then((data) => {
+            console.log(data.slice());
         });
-       /* let arr  = asideStore.asideList.slice();
-        console.log(arr);*/
+        /* let arr  = asideStore.asideList.slice();
+         console.log(arr);*/
     }
-    render(){
-        return(
+
+    render() {
+        const { loginOut, testData } = this.props.loginStore;
+
+        return (
             <Layout>
                 <Header className={styles.header}>
                     <div className={styles.logo} />
@@ -28,18 +39,18 @@ class Main extends Component {
                         defaultSelectedKeys={['1']}
                         className={styles.ul}
                         style={{ lineHeight: '64px' }}
-                        onClick={(event)=>this.testClick(event)}
+                        onClick={(event) => this.testClick(event)}
                     >
                         <Menu.Item key="1"><Link to="/Setting">系统设置</Link></Menu.Item>
                         <Menu.Item key="2"><Link to="/User">{this.props.asideStore.asideList.slice()}</Link></Menu.Item>
                         <Menu.Item key="3"><Link to="/Exchange">共享交换</Link></Menu.Item>
                     </Menu>
                     <div className={styles.userPhoto}>
-                        <Menu  mode="horizontal" style={{ lineHeight: '64px' }} className={styles.info} theme="dark">
+                        <Menu mode="horizontal" style={{ lineHeight: '64px' }} className={styles.info} theme="dark">
                             <SubMenu title={<span><Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /><span className={styles.userName}>wjl</span></span>}>
 
-                                    <Menu.Item key="setting:1">个人信息</Menu.Item>
-                                    <Menu.Item key="setting:2">退出</Menu.Item>
+                                <Menu.Item key="setting:1">个人信息</Menu.Item>
+                                <Menu.Item key="setting:2" onClick={() => { loginOut() }} >退出</Menu.Item>
 
                             </SubMenu>
                         </Menu>
@@ -69,7 +80,11 @@ class Main extends Component {
                             <Breadcrumb.Item>App</Breadcrumb.Item>
                         </Breadcrumb>
                         <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 580 }}>
-                            Content
+                            <div>{testData}</div>
+                            <Test>
+                                <div>1</div>
+                                <div>2</div>
+                            </Test>
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>
                             共享交换系统 ©2016 Created by wjl

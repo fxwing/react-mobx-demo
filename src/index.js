@@ -8,8 +8,7 @@ import { BrowserRouter as Router,Route } from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
 
 import store from './stores/index'
-
-console.log(store);
+// console.log(store);
 useStrict(true)
 ReactDOM.render(
     <Provider {...store}>

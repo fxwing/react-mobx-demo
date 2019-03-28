@@ -5,11 +5,11 @@ import { observable, action, computed, runInAction } from "mobx"
 
 class AsideStore {
     @observable currentKey
-    @observable asideList
+    @observable asideList=[];
     constructor(){
         this.asideList=[];
     }
-    @action getAsideMenu(){
+    @action.bound  async getAsideMenu(){
         return new Promise((resolve,reject)=>{
 
             setTimeout(()=>{
@@ -28,6 +28,12 @@ class AsideStore {
 
 
 
+    }
+    @action.bound async changeTest(){
+        this.testData=[1,2,3]
+    }
+    @computed get getTes(){
+        return this.testData.map(i=>i*2)
     }
 
 }

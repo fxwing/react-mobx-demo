@@ -1,29 +1,34 @@
-import React,{ Component } from 'react'
+import React, { Component } from 'react'
 import styles from './Login.less'
-import { observer,inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const FormItem = Form.Item;
-const form = Form.create()
-@inject('loginStore') @form @observer
-class Login extends Component {
-    constructor(){
+const form = Form.create();
+@inject('loginStore')
+@inject('asideStore')
+
+@form @observer class Login extends Component {
+    constructor(props) {
         super();
+        console.log(props);
     }
-    handleSubmit (e){
-        const { login,userInfo } = this.props.loginStore;
+    handleSubmit(e) {
+        const { login, userInfo,changeTest } = this.props.loginStore;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 login(values);
+                changeTest()
             }
         });
     }
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { testData}=this.props.loginStore
         return (
             <div className={styles.loginWrapper}  >
-                <Form onSubmit={(event)=>this.handleSubmit(event)} className="login-form">
+                <Form onSubmit={(event) => this.handleSubmit(event)} className="login-form">
                     <FormItem>
                         {getFieldDecorator('userName', {
                             rules: [{ required: true, message: '请输入用户名!' }],
@@ -49,6 +54,7 @@ class Login extends Component {
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             登陆
                         </Button>
+                        {testData}
                     </FormItem>
                 </Form>
             </div>
